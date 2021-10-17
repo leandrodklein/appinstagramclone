@@ -1,104 +1,126 @@
-import React from 'react';
-import type {Node} from 'react';
+
+import React, { Component } from 'react';
 import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
+  Platform,
   StyleSheet,
   Text,
-  useColorScheme,
   View,
+  Image,
+  TouchableOpacity,
+  FlatList
 } from 'react-native';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+import Lista from './src/Lista';
 
-const Section = ({children, title}): Node => {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-};
+class App extends Component {
 
-const App: () => Node = () => {
-  const isDarkMode = useColorScheme() === 'dark';
+  constructor(props){
+    super(props);
+    this.state = {
+      feed: [
+        {
+          id: '1', 
+          nome: 'João', 
+          descricao: 'Mais um dia de muitos bugs :)', 
+          imgperfil: '', 
+          imgPublicacao: '',  
+          likeada: true, 
+          likers: 1
+         },
+        {
+          id: '2', 
+          nome: 'Maria', 
+          descricao: 'Isso sim é ser raiz!!!!!', 
+          imgperfil: '', 
+          imgPublicacao: '', 
+          likeada: false, 
+          likers: 0
+        },
+        {
+          id: '3', 
+          nome: 'José', 
+          descricao: 'Bora trabalhar Haha', 
+          imgperfil: '', 
+          imgPublicacao: '',  
+          likeada: false, 
+          likers: 3
+        },
+        {
+          id: '4', 
+          nome: 'Ana', 
+          descricao: 'Isso sim que é TI!', 
+          imgperfil: '', 
+          imgPublicacao: '', 
+          likeada: false, 
+          likers: 1
+        },
+        {
+          id: '5', 
+          nome: 'Angélica', 
+          descricao: 'Boa tarde galera do insta...', 
+          imgperfil: '', 
+          imgPublicacao: '',
+          likeada: false, 
+          likers: 32
+        }
+      ]
+     };
+ 
+  }
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
+  render() {
+    return (
+      <View style={styles.container}>
+      
+      <View style={styles.header}>
+        <TouchableOpacity>
+          <Image
+          source={require('./src/img/logo.png')}
+          style={styles.logo}
+          />
+        </TouchableOpacity>
 
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.js</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
-};
+        <TouchableOpacity>
+          <Image
+          source={require('./src/img/send.png')}
+          style={styles.send}
+          />
+        </TouchableOpacity>
+      </View>
+
+      <FlatList
+      showsHorizontalScrollIndicator={false}
+      keyExtractor={(item) => item.id}
+      data={this.state.feed}
+      renderItem={ ({item}) => <Lista data={item} /> }
+      />
+
+      </View>
+    );
+  }
+}
+
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  container: {
+    flex: 1,
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
+  header:{
+    height: 55,
+    backgroundColor: '#FFF',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: 5,
+    borderBottomWidth: 0.2,
+    shadowColor: '#000',
+    elevation: 1,
   },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
+  send:{
+    width: 23,
+    height: 23
+  }
+
 });
 
 export default App;
